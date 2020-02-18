@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.valarcfcc.xyz.mapper")
+@MapperScan("com.valarcfcc.xyz.api.mapper")
 public class XyzApplication {
 
 	public static void main(String[] args) {
