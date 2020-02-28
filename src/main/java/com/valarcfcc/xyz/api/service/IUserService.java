@@ -1,5 +1,7 @@
 package com.valarcfcc.xyz.api.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.valarcfcc.xyz.api.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-02-16
  */
 public interface IUserService extends IService<User> {
+
+    public IPage<User> selectUserPage(Page<User> page, Integer state) ;
 
 }
