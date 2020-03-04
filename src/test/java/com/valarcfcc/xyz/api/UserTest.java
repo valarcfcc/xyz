@@ -5,13 +5,18 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.valarcfcc.xyz.api.entity.User;
 import com.valarcfcc.xyz.api.mapper.UserMapper;
 import com.valarcfcc.xyz.api.service.IUserService;
+import com.valarcfcc.xyz.utils.MD5Utils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -67,14 +72,45 @@ public class UserTest {
     public void getUser(){
         QueryWrapper<User> wrapper = Wrappers.query();
         wrapper.eq("age","20");
-        User user = User.builder().age(18).email("123456@qq.com").name("ming").build();
-        User userById = User.builder().id(new Long("10")).age(77).email("qwerttt@qq.com").name("777").build();
-        // 根据 whereEntity 条件，更新记录
-        boolean isUpdateById = userService.updateById(userById);
-        // 根据 ID 选择修改
-        boolean isUpdate = userService.update(user,wrapper);
-        Assert.assertTrue(isUpdate);
-        Assert.assertTrue(isUpdateById);
+        wrapper.last("LIMIT 1");
+        // 根据 Wrapper，查询一条记录。结果集，如果是多个会抛出异常，随机取一条加上限制条件 wrapper.last("LIMIT 1")
+        User user = userService.getOne(wrapper);
+        User userById = userService.getById(5);
+        System.out.println(user);
+        System.out.println(userById);
+    }
+    @Test
+    public void getPassword(){
+        String name = "admin";
+        String password = "123456";
+        String newPassword = MD5Utils.encrypt(name, password);
+        System.out.println(("----- selectAll method test ------"));
+        List<User> userList = userMapper.selectList(null);
+        userList.forEach(System.out::println);
+        System.out.println(newPassword);
+    }
+    @Test
+    public void listUser(){
+        QueryWrapper<User> wrapper = Wrappers.query();
+        wrapper.eq("age","28");
+        Map<String,Object> map = new HashMap<>();
+        map.put("name","Billie");
+        List<Integer> list = new ArrayList<>();
+        list.add(4);
+        list.add(8);
+        list.add(12);
+        // 根据 Wrapper，查询结果集。
+        List<User> userByWrapper= userService.list(wrapper);
+        // 查询（根据 columnMap 条件）
+        List<User> userByMap= userService.listByMap(map);
+        // 查询（根据ID 批量查询）
+        List<User> userByList= userService.listByIds(list);
+        System.out.println(("----- Wrapper查询结果集 ------"));
+        userByWrapper.forEach(System.out::println);
+        System.out.println(("----- Map查询结果集 ------"));
+        userByMap.forEach(System.out::println);
+        System.out.println(("----- IdList查询结果集 ------"));
+        userByList.forEach(System.out::println);
     }
 
 }
