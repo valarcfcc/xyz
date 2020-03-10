@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -45,6 +46,12 @@ public class User implements Serializable {
      * 邮箱
      */
     private String email;
+
+    /**
+     * 逻辑删除
+     */
+    @TableLogic
+    private Integer delFlag;
 
 
 }
