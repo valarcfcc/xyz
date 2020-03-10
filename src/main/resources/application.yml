@@ -9,3 +9,6 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/api/*Mapper.xml
+  type-aliases-package: com.valarcfcc.xyz.api.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
