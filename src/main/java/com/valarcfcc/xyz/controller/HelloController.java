@@ -14,12 +14,12 @@ import java.util.Date;
 @RestController
 public class HelloController {
 
-  @GetMapping("/test")
-  public String test() {
-    System.out.println(123);
-    Date date = new Date();
-    date.getTime();
-    System.out.println(date.toString());
+    @GetMapping("/test")
+    public String test() {
+        System.out.println(123);
+        Date date = new Date();
+        date.getTime();
+        System.out.println(date.toString());
 
     Object obj = new Date();
     Object object = new Object();
@@ -37,35 +37,35 @@ public class HelloController {
     return "hello lim59 理想一哥";
   }
 
-  public  void str(String s1, User s2){
-    s1 = "234";
-    s2.setName("lim");
-  }
-  @PostMapping("/posttest")
-  public String postTest(@RequestBody String name) {
-    System.out.println(name.toString());
-    Date date = new Date();
-    date.getTime();
+    public  void str(String s1, User s2){
+        s1 = "234";
+        s2.setName("lim");
+    }
+    @PostMapping("/posttest")
+    public String postTest(@RequestBody String name) {
+        System.out.println(name.toString());
+        Date date = new Date();
+        date.getTime();
 
-    Object obj = new Date();
-    Date date1 = (Date)obj;
-    date1.getTime();
-    return "hello " + name;
-  }
+        Object obj = new Date();
+        Date date1 = (Date)obj;
+        date1.getTime();
+        return "hello " + name;
+    }
 
-  @PostMapping("/user")
-  public String user(@RequestBody User user) {
-    System.out.println(12345);
-    // System.out.println(jsonParam.toJSONString());
-    // User user =
-    // (User)JSONObject.parseObject(jsonParam.toJSONString(),User.class);
-    System.out.println(user.toString());
-    return "hello " + user.getName();
-  }
+    @PostMapping("/user")
+    public String user(@RequestBody User user) {
+        System.out.println(12345);
+        // System.out.println(jsonParam.toJSONString());
+        // User user =
+        // (User)JSONObject.parseObject(jsonParam.toJSONString(),User.class);
+        System.out.println(user.toString());
+        return "hello " + user.getName();
+    }
 
-  @PostMapping(value = "/xml", headers = { "content-type=application/xml" })
-  public String xml(@RequestBody User user) {
-    System.out.println(user.toString());
-    return user.getName();
-  }
+    @PostMapping(value = "/xml", headers = { "content-type=application/xml" })
+    public String xml(@RequestBody User user) {
+        System.out.println(user.toString());
+        return user.getName();
+    }
 }
