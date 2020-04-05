@@ -1,8 +1,4 @@
 package com.valarcfcc.xyz.controller;
-
-import com.alibaba.fastjson.JSONObject;
-
-
 import com.valarcfcc.xyz.bean.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,9 +52,6 @@ public class HelloController {
   @PostMapping("/user")
   public String user(@RequestBody User user) {
     System.out.println(12345);
-    // System.out.println(jsonParam.toJSONString());
-    // User user =
-    // (User)JSONObject.parseObject(jsonParam.toJSONString(),User.class);
     System.out.println(user.toString());
     return "hello " + user.getName();
   }

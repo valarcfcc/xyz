@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.valarcfcc.xyz.api.entity.User;
 import com.valarcfcc.xyz.api.service.IUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author valarcfcc
  * @since 2020-02-16
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -35,6 +37,7 @@ public class UserController {
     }
     @GetMapping(value = "/selectPage")
     public Object selectPage(Page page, Integer age) {
+        log.info("age:" + String.valueOf(age));
         return userService.selectUserPage(page,age);
     }
 
