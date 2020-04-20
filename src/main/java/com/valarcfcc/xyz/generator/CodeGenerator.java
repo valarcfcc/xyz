@@ -1,11 +1,13 @@
 package com.valarcfcc.xyz.generator;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
@@ -41,9 +43,11 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/src/main/java");
+//        gc.setOutputDir(projectPath + "/src/main/java");
+        gc.setOutputDir("D://mp");
         gc.setAuthor("valarcfcc");
         gc.setOpen(false);
+        gc.setFileOverride(true);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
@@ -113,8 +117,8 @@ public class CodeGenerator {
 
 //        // 策略配置
         StrategyConfig strategy = new StrategyConfig();
-//        strategy.setNaming(NamingStrategy.underline_to_camel);
-//        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
+        strategy.setNaming(NamingStrategy.underline_to_camel);
+        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 //        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
         strategy.setEntityLombokModel(true);
 //        strategy.setRestControllerStyle(true);
@@ -125,6 +129,10 @@ public class CodeGenerator {
 //        strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
 //        strategy.setControllerMappingHyphenStyle(true);
 //        strategy.setTablePrefix(pc.getModuleName() + "_");
+        strategy.setLogicDeleteFieldName("delFlag");
+        List<TableFill> tableFills = new ArrayList<>();
+        tableFills.add(new TableFill("CREATE_DATE", FieldFill.INSERT));
+        strategy.setTableFillList(tableFills);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
