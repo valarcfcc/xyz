@@ -38,6 +38,7 @@ public class UserController {
     @GetMapping(value = "/selectPage")
     public Object selectPage(Page page, Integer age) {
         log.info("age:" + String.valueOf(age));
+        log.debug("");
         return userService.selectUserPage(page,age);
     }
 

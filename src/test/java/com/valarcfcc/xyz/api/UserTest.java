@@ -8,6 +8,8 @@ import com.valarcfcc.xyz.api.entity.User;
 import com.valarcfcc.xyz.api.mapper.UserMapper;
 import com.valarcfcc.xyz.api.service.IUserService;
 import com.valarcfcc.xyz.utils.MD5Utils;
+import com.valarcfcc.xyz.utils.XmlUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,12 +25,25 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class UserTest {
     @Autowired
     private UserMapper userMapper;
     @Autowired
     private IUserService userService;
 
+    @Test
+    public void xmlUtilsTest(){
+        User user = new User();
+        user.setAge(19);
+        user.setEmail("111");
+        try {
+            String str = XmlUtils.beanToXml(user,User.class);
+            System.out.println((str));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
     @Test
     public void testSelect() {
         System.out.println(("----- selectAll method test ------"));
@@ -91,9 +107,7 @@ public class UserTest {
         String name = "admin";
         String password = "123456";
         String newPassword = MD5Utils.encrypt(name, password);
-        System.out.println(("----- selectAll method test ------"));
-        List<User> userList = userMapper.selectList(null);
-        userList.forEach(System.out::println);
+        log.info("name:{},password: {}",name,password);
         System.out.println(newPassword);
     }
 
