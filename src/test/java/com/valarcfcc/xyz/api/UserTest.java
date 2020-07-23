@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.valarcfcc.xyz.DTO.DogDTO;
+import com.valarcfcc.xyz.DTO.TestDTO;
+import com.valarcfcc.xyz.api.entity.Dog;
 import com.valarcfcc.xyz.api.entity.User;
 import com.valarcfcc.xyz.api.mapper.UserMapper;
 import com.valarcfcc.xyz.api.service.IUserService;
@@ -18,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.xml.bind.JAXBException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,18 +36,90 @@ public class UserTest {
     @Autowired
     private IUserService userService;
 
+
     @Test
-    public void xmlUtilsTest(){
+    public void objToXMLTest() {
+        DogDTO dogDTO = new DogDTO();
+        {
+            Dog dog = new Dog();
+            dog.setName("来福");
+            dog.setId("1");
+            dog.setNum(1);
+
+            List<Dog> list = new ArrayList<>();
+            list.add(dog);
+            list.add(dog);
+            list.forEach(System.out::println);
+            dogDTO.setDog(dog);
+            dogDTO.setDogList(list);
+            dogDTO.setName("小强");
+            Map map = new HashMap();
+            map.put("dog1",dog);
+            map.put("dogList1",list);
+            map.put("str","ser");
+            dogDTO.setDogMap(map);
+        }
+        try {
+            String str = XmlUtils.objectToXML(dogDTO, "s");
+            System.out.println(str);
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void xmlUtilsTest() {
         User user = new User();
         user.setAge(19);
         user.setEmail("111");
         try {
-            String str = XmlUtils.beanToXml(user,User.class);
+            String str = XmlUtils.beanToXml(user, User.class);
             System.out.println((str));
         } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
+
+
+    @Test
+    public void objTest() {
+        User user = new User();
+        user.setAge(19);
+        user.setEmail("111");
+        TestDTO testDTO = new TestDTO();
+        testDTO.setName("11");
+        testDTO.setUser(user);
+        List<User> userList = new ArrayList<>();
+        testDTO.setUserList(userList);
+
+        try {
+            Map<String, Object> map = XmlUtils.objectToMap(testDTO);
+            System.out.println("通过Map.entrySet遍历key和value");
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue().toString());
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void objToMapTest() {
+        User user = new User();
+        user.setAge(19);
+        user.setEmail("111");
+        try {
+            Map<String, Object> map = XmlUtils.objectToMap(user);
+            System.out.println("通过Map.entrySet遍历key和value");
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue().toString());
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void testSelect() {
         System.out.println(("----- selectAll method test ------"));
@@ -107,7 +183,7 @@ public class UserTest {
         String name = "admin";
         String password = "123456";
         String newPassword = MD5Utils.encrypt(name, password);
-        log.info("name:{},password: {}",name,password);
+        log.info("name:{},password: {}", name, password);
         System.out.println(newPassword);
     }
 
