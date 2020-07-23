@@ -21,11 +21,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.xml.bind.JAXBException;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -38,29 +37,50 @@ public class UserTest {
 
 
     @Test
+    public void typeTest() {
+        Type type3 = new GenericArrayType() {
+            @Override
+            public Type getGenericComponentType() {
+                return null;
+            }
+        };
+        Type genericArrayType3 = ((GenericArrayType) type3).getGenericComponentType();
+        ParameterizedType parameterizedType3 = (ParameterizedType) genericArrayType3;
+        Type[] parameterizedType3Arr = parameterizedType3.getActualTypeArguments();
+        Class class3 = (Class) parameterizedType3Arr[0];
+        System.out.println("class3:" + class3.getName());
+
+    }
+
+    @Test
     public void objToXMLTest() {
         DogDTO dogDTO = new DogDTO();
-        {
+
             Dog dog = new Dog();
             dog.setName("来福");
             dog.setId("1");
             dog.setNum(1);
 
-            List<Dog> list = new ArrayList<>();
+            ArrayList<Dog> list = new ArrayList<>();
             list.add(dog);
             list.add(dog);
             list.forEach(System.out::println);
+            ArrayList<ArrayList> listList = new ArrayList<>();
+            listList.add(list);
+            listList.add(list);
+            dogDTO.setListList(Collections.singletonList(listList));
             dogDTO.setDog(dog);
             dogDTO.setDogList(list);
             dogDTO.setName("小强");
             Map map = new HashMap();
-            map.put("dog1",dog);
-            map.put("dogList1",list);
-            map.put("str","ser");
+            map.put("dog1", dog);
+            map.put("dogList1", list);
+            map.put("str", "ser");
+
             dogDTO.setDogMap(map);
-        }
+
         try {
-            String str = XmlUtils.objectToXML(dogDTO, "s");
+            String str = XmlUtils.objectToXML(listList, "s");
             System.out.println(str);
 
         } catch (IllegalAccessException e) {

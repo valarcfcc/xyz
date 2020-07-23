@@ -67,6 +67,7 @@ public class XmlUtils {
 
     private static final String JAVA_TYPE = "java.";
     private static final String JAVADATESTR = "java.util.Date";
+    private static final String OBJECT = "java.lang.Object";
 
     /**
      * 获取利用反射获取类里面的值和名称
@@ -100,7 +101,7 @@ public class XmlUtils {
         return map;
     }
 
-    public static String objectToXML(@NotNull Object obj,@NotNull String node) throws IllegalAccessException {
+    public static String objectToXML(@NotNull Object obj, @NotNull String node) throws IllegalAccessException {
         StringBuffer soapResultData = new StringBuffer();
         Class<?> clazz = obj.getClass();
         for (Field field : clazz.getDeclaredFields()) {
@@ -111,6 +112,7 @@ public class XmlUtils {
             if (Objects.isNull(value)) {
             } else {
                 valueClass = value.getClass();
+                System.out.println(valueClass.getName());
             }
             if (value instanceof List) {
                 if (((List) value).isEmpty()) {
@@ -118,33 +120,53 @@ public class XmlUtils {
                 } else {
                     for (Object o : (List) value) {
                         soapResultData.append("<" + node + ":" + fieldName + ">");
-                        soapResultData.append(objectToXML(o,node));
+                        soapResultData.append(objectToXML(o, node));
                         soapResultData.append("</" + node + ":" + fieldName + ">");
                     }
                 }
+                System.out.println("--------List--------");
                 continue;
             } else if (value instanceof Map) {
                 soapResultData.append("<" + node + ":" + fieldName + ">");
                 Map<String, Object> map = (Map<String, Object>) value;
-                for (Map.Entry<String, Object> entry : map.entrySet()) {
-                    soapResultData.append(objectToXML(entry,node));
+                for (String key : map.keySet()) {
+                    soapResultData.append("<" + node + ":" + key + ">");
+                    soapResultData.append(objectToXML(map.get(key), node));
+//                    System.out.println("key= "+ key + " and value= " + map.get(key));
+                    soapResultData.append("</" + node + ":" + key + ">");
                 }
+//                for (Map.Entry entry : map.entrySet()) {
+//                    soapResultData.append("<" + node + ":" + entry.getKey() + ">");
+//                    soapResultData.append(objectToXML((Object) entry.getValue(),node));
+//                    soapResultData.append("</" + node + ":" + entry.getKey() + ">");
+//                }
                 soapResultData.append("</" + node + ":" + fieldName + ">");
+                System.out.println("--------Map--------");
                 continue;
             } else if (Objects.isNull(value)) {
                 soapResultData.append("<" + node + ":" + fieldName + ">");
                 soapResultData.append("</" + node + ":" + fieldName + ">");
+                System.out.println("--------null--------");
                 continue;
+            } else if (!Objects.isNull(value) && valueClass.getName().contains(OBJECT)) {
+                Object bean = value;
+                soapResultData.append("<" + node + ":" + fieldName + ">");
+                soapResultData.append(objectToXML(bean, node));
+                soapResultData.append("</" + node + ":" + fieldName + ">");
+                System.out.println("--------Object--------");
             } else if (valueClass.getName().contains(JAVA_TYPE)) {
                 soapResultData.append("<" + node + ":" + fieldName + ">");
                 soapResultData.append(value.toString());
                 soapResultData.append("</" + node + ":" + fieldName + ">");
+                System.out.println("--------Java--------");
                 continue;
-            } else if (!Objects.isNull(value)) {
+            } else if (!Objects.isNull(value) ) {
+                Object bean = value;
                 soapResultData.append("<" + node + ":" + fieldName + ">");
-                soapResultData.append(objectToXML(value,node));
+                soapResultData.append(objectToXML(bean, node));
                 soapResultData.append("</" + node + ":" + fieldName + ">");
-            } else {
+                System.out.println("--------Object--------");
+            }else {
                 throw new IllegalAccessException("Bean类型错误！");
             }
         }

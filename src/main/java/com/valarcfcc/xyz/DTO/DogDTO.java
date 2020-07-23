@@ -17,5 +17,6 @@ public class DogDTO {
     private String name ;
     private List<Dog> dogList;
     private Dog dog;
+    private List<List> listList;
     private Map dogMap;
 }
