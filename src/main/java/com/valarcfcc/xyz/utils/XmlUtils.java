@@ -5,6 +5,8 @@ import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 import org.apache.commons.lang.StringUtils;;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.xml.bind.JAXBContext;
@@ -101,9 +103,31 @@ public class XmlUtils {
         return map;
     }
 
-    public static String objectToXML(@NotNull Object obj, @NotNull String node) throws IllegalAccessException {
+    public static String listToXML(@NotNull Object obj, @NotNull String node) throws IllegalAccessException, InstantiationException {
         StringBuffer soapResultData = new StringBuffer();
         Class<?> clazz = obj.getClass();
+        System.out.println(clazz.getName());
+        if (obj instanceof List) {
+
+            if (((List) obj).isEmpty()) {
+                return StringUtils.EMPTY;
+            } else {
+                for (Object o : (List) obj) {
+                    soapResultData.append("<" + node + ":" + "list>");
+                    soapResultData.append(objectToXML(o, node));
+                    soapResultData.append("</" + node + ":" + "list>");
+                }
+            }
+            System.out.println("--------List--------");
+        }
+
+        return soapResultData.toString();
+    }
+
+    public static String objectToXML(@NotNull Object obj, @NotNull String node) throws IllegalAccessException, InstantiationException {
+        StringBuffer soapResultData = new StringBuffer();
+        Class<?> clazz = obj.getClass();
+        System.out.println(clazz.getName());
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             String fieldName = field.getName();
@@ -115,9 +139,22 @@ public class XmlUtils {
                 System.out.println(valueClass.getName());
             }
             if (value instanceof List) {
+                Type genericType = field.getGenericType();
+                if (genericType instanceof ParameterizedType) {
+                    ParameterizedType pt = (ParameterizedType) genericType;
+                    // 得到泛型里的class类型对象
+                    Class<?> actualTypeArgument = (Class<?>) pt.getActualTypeArguments()[0];
+                    List<Object> curEleList = new ArrayList<>();
+                    System.out.println(actualTypeArgument.getName());
+
+                    //....actualType字段处理
+//                    curEleList.add(actualType);
+//                    field.set(obj, curEleList);
+                }
                 if (((List) value).isEmpty()) {
                     continue;
                 } else {
+
                     for (Object o : (List) value) {
                         soapResultData.append("<" + node + ":" + fieldName + ">");
                         soapResultData.append(objectToXML(o, node));
@@ -148,25 +185,34 @@ public class XmlUtils {
                 soapResultData.append("</" + node + ":" + fieldName + ">");
                 System.out.println("--------null--------");
                 continue;
-            } else if (!Objects.isNull(value) && valueClass.getName().contains(OBJECT)) {
-                Object bean = value;
-                soapResultData.append("<" + node + ":" + fieldName + ">");
-                soapResultData.append(objectToXML(bean, node));
-                soapResultData.append("</" + node + ":" + fieldName + ">");
-                System.out.println("--------Object--------");
-            } else if (valueClass.getName().contains(JAVA_TYPE)) {
+            }
+//            else if (!Objects.isNull(value) && valueClass.getName().contains(OBJECT)) {
+//                Object bean = value;
+//                soapResultData.append("<" + node + ":" + fieldName + ">");
+//                soapResultData.append(objectToXML(bean, node));
+//                soapResultData.append("</" + node + ":" + fieldName + ">");
+//                System.out.println("--------Object--------");
+//            }
+            else if (value instanceof String) {
                 soapResultData.append("<" + node + ":" + fieldName + ">");
                 soapResultData.append(value.toString());
                 soapResultData.append("</" + node + ":" + fieldName + ">");
                 System.out.println("--------Java--------");
                 continue;
-            } else if (!Objects.isNull(value) ) {
+            }
+            else if (valueClass.getName().contains(JAVA_TYPE)) {
+                soapResultData.append("<" + node + ":" + fieldName + ">");
+                soapResultData.append(value.toString());
+                soapResultData.append("</" + node + ":" + fieldName + ">");
+                System.out.println("--------Java--------");
+                continue;
+            } else if (!Objects.isNull(value)) {
                 Object bean = value;
                 soapResultData.append("<" + node + ":" + fieldName + ">");
                 soapResultData.append(objectToXML(bean, node));
                 soapResultData.append("</" + node + ":" + fieldName + ">");
-                System.out.println("--------Object--------");
-            }else {
+                System.out.println("--------Object not null--------");
+            } else {
                 throw new IllegalAccessException("Bean类型错误！");
             }
         }

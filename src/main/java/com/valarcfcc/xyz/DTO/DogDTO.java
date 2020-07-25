@@ -4,6 +4,11 @@ import com.valarcfcc.xyz.api.entity.Dog;
 import com.valarcfcc.xyz.api.entity.User;
 import lombok.Data;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +18,19 @@ import java.util.Map;
  * @Description:
  */
 @Data
+@XmlAccessorType(value= XmlAccessType.FIELD)
+@XmlRootElement
 public class DogDTO {
+    @XmlElement
     private String name ;
+    @XmlElement
     private List<Dog> dogList;
     private Dog dog;
-    private List<List> listList;
+    @XmlElement
+    private List<DogList> listList;
+    @XmlElement
     private Map dogMap;
+
+
+
 }

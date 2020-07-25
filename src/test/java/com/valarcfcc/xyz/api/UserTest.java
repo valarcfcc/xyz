@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.valarcfcc.xyz.DTO.DogDTO;
+import com.valarcfcc.xyz.DTO.DogList;
 import com.valarcfcc.xyz.DTO.TestDTO;
 import com.valarcfcc.xyz.api.entity.Dog;
 import com.valarcfcc.xyz.api.entity.User;
@@ -56,34 +57,37 @@ public class UserTest {
     public void objToXMLTest() {
         DogDTO dogDTO = new DogDTO();
 
-            Dog dog = new Dog();
-            dog.setName("来福");
-            dog.setId("1");
-            dog.setNum(1);
+        Dog dog = new Dog();
+        dog.setName("来福");
+        dog.setId("1");
+        dog.setNum(1);
 
-            ArrayList<Dog> list = new ArrayList<>();
-            list.add(dog);
-            list.add(dog);
-            list.forEach(System.out::println);
-            ArrayList<ArrayList> listList = new ArrayList<>();
-            listList.add(list);
-            listList.add(list);
-            dogDTO.setListList(Collections.singletonList(listList));
-            dogDTO.setDog(dog);
-            dogDTO.setDogList(list);
-            dogDTO.setName("小强");
-            Map map = new HashMap();
-            map.put("dog1", dog);
-            map.put("dogList1", list);
-            map.put("str", "ser");
+        List<Dog> list = new ArrayList<>();
+        list.add(dog);
+        list.add(dog);
+//        list.forEach(System.out::println);
+//
+//        DogList dogList = new DogList();
+//        dogList.setDogListInfo(list);
+//        List listList = new ArrayList();
+//        listList.add(dogList);
+//        dogDTO.setListList(listList);
+//        dogDTO.setDog(dog);
+//        dogDTO.setDogList(list);
+//        dogDTO.setName("小强");
+        Map map = new HashMap();
+        map.put("dog1", dog);
+        map.put("dogList1", list);
+        String string = "ser";
+        map.put("str", string);
 
-            dogDTO.setDogMap(map);
+        dogDTO.setDogMap(map);
 
         try {
-            String str = XmlUtils.objectToXML(listList, "s");
+            String str = XmlUtils.objectToXML(dogDTO, "s");
             System.out.println(str);
 
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
     }

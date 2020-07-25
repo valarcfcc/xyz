@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.xml.bind.JAXBException;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -31,11 +32,9 @@ public class TestReflect {
         ArrayList<Dog> list = new ArrayList<>();
         list.add(dog);
         list.add(dog);
-        list.forEach(System.out::println);
-        ArrayList<ArrayList> listList = new ArrayList<>();
+        ArrayList<ArrayList<Dog>> listList = new ArrayList<>();
         listList.add(list);
         listList.add(list);
-        dogDTO.setListList(Collections.singletonList(listList));
         dogDTO.setDog(dog);
         dogDTO.setDogList(list);
         dogDTO.setName("小强");
@@ -47,10 +46,11 @@ public class TestReflect {
         dogDTO.setDogMap(map);
 
         try {
-            String str = XmlUtils.objectToXML(listList, "s");
+//            String str = XmlUtils.objectToXML(dogDTO, "s");
+            String str = XmlUtils.beanToXml(dogDTO,DogDTO.class);
             System.out.println(str);
 
-        } catch (IllegalAccessException e) {
+        } catch ( JAXBException e) {
             e.printStackTrace();
         }
     }
