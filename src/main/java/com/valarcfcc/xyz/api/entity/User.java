@@ -42,7 +42,7 @@ public class User implements Serializable {
         this.delFlag = delFlag;
     }
 
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
 
     /**
      * 主键ID

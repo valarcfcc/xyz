@@ -5,6 +5,8 @@ import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 import org.apache.commons.lang.StringUtils;;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.xml.bind.JAXBContext;
@@ -104,6 +106,15 @@ public class XmlUtils {
     public static String objectToXML(@NotNull Object obj, @NotNull String node) throws IllegalAccessException {
         StringBuffer soapResultData = new StringBuffer();
         Class<?> clazz = obj.getClass();
+        if (obj instanceof String || obj instanceof StringBuffer
+                || obj instanceof Boolean || obj instanceof Byte
+                || obj instanceof Integer || obj instanceof Short
+                || obj instanceof Character || obj instanceof Long
+                || obj instanceof Float || obj instanceof Double
+                || obj instanceof BigDecimal || obj instanceof BigInteger) {
+            System.out.println("--------Java包装类与math--------");
+            return obj.toString();
+        }
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             String fieldName = field.getName();
@@ -124,7 +135,6 @@ public class XmlUtils {
                         soapResultData.append("</" + node + ":" + fieldName + ">");
                     }
                 }
-                System.out.println("--------List--------");
                 continue;
             } else if (value instanceof Map) {
                 soapResultData.append("<" + node + ":" + fieldName + ">");
@@ -132,41 +142,34 @@ public class XmlUtils {
                 for (String key : map.keySet()) {
                     soapResultData.append("<" + node + ":" + key + ">");
                     soapResultData.append(objectToXML(map.get(key), node));
-//                    System.out.println("key= "+ key + " and value= " + map.get(key));
                     soapResultData.append("</" + node + ":" + key + ">");
                 }
-//                for (Map.Entry entry : map.entrySet()) {
-//                    soapResultData.append("<" + node + ":" + entry.getKey() + ">");
-//                    soapResultData.append(objectToXML((Object) entry.getValue(),node));
-//                    soapResultData.append("</" + node + ":" + entry.getKey() + ">");
-//                }
                 soapResultData.append("</" + node + ":" + fieldName + ">");
-                System.out.println("--------Map--------");
                 continue;
-            } else if (Objects.isNull(value)) {
+            } else if (value instanceof String || value instanceof StringBuffer
+                    || value instanceof Boolean || value instanceof Byte
+                    || value instanceof Integer || value instanceof Short
+                    || value instanceof Character || value instanceof Long
+                    || value instanceof Float || value instanceof Double
+                    || value instanceof BigDecimal || value instanceof BigInteger) {
+                soapResultData.append("<" + node + ":" + fieldName + ">");
+                soapResultData.append(value.toString());
+                soapResultData.append("</" + node + ":" + fieldName + ">");
+                System.out.println("--------Java包装类与math--------");
+                continue;
+            }else if (value instanceof Object) {
+                soapResultData.append("<" + node + ":" + fieldName + ">");
+                soapResultData.append(objectToXML(value, node));
+                soapResultData.append("</" + node + ":" + fieldName + ">");
+               System.out.println("--------Object--------");
+            }
+            else if (Objects.isNull(value)) {
                 soapResultData.append("<" + node + ":" + fieldName + ">");
                 soapResultData.append("</" + node + ":" + fieldName + ">");
                 System.out.println("--------null--------");
                 continue;
-            } else if (!Objects.isNull(value) && valueClass.getName().contains(OBJECT)) {
-                Object bean = value;
-                soapResultData.append("<" + node + ":" + fieldName + ">");
-                soapResultData.append(objectToXML(bean, node));
-                soapResultData.append("</" + node + ":" + fieldName + ">");
-                System.out.println("--------Object--------");
-            } else if (valueClass.getName().contains(JAVA_TYPE)) {
-                soapResultData.append("<" + node + ":" + fieldName + ">");
-                soapResultData.append(value.toString());
-                soapResultData.append("</" + node + ":" + fieldName + ">");
-                System.out.println("--------Java--------");
-                continue;
-            } else if (!Objects.isNull(value) ) {
-                Object bean = value;
-                soapResultData.append("<" + node + ":" + fieldName + ">");
-                soapResultData.append(objectToXML(bean, node));
-                soapResultData.append("</" + node + ":" + fieldName + ">");
-                System.out.println("--------Object--------");
-            }else {
+            }
+            else {
                 throw new IllegalAccessException("Bean类型错误！");
             }
         }

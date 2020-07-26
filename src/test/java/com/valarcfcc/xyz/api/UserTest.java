@@ -68,7 +68,6 @@ public class UserTest {
             ArrayList<ArrayList> listList = new ArrayList<>();
             listList.add(list);
             listList.add(list);
-            dogDTO.setListList(Collections.singletonList(listList));
             dogDTO.setDog(dog);
             dogDTO.setDogList(list);
             dogDTO.setName("小强");
@@ -99,6 +98,22 @@ public class UserTest {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+    }
+    @Test
+    public void listTest(){
+        List<User> userList = new ArrayList<>();
+        Integer a = 0;
+        Map user = new HashMap();
+        if(userList instanceof List){
+            System.out.println(("----- List ------"));
+        }
+        if(userList instanceof Map){
+            System.out.println(("----- Map ------"));
+        }
+        if (a instanceof Integer){
+
+        }
+
     }
 
 

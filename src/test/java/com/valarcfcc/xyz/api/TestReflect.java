@@ -1,7 +1,9 @@
 package com.valarcfcc.xyz.api;
 
 import com.valarcfcc.xyz.DTO.DogDTO;
+import com.valarcfcc.xyz.DTO.TestDTO;
 import com.valarcfcc.xyz.api.entity.Dog;
+import com.valarcfcc.xyz.api.entity.User;
 import com.valarcfcc.xyz.utils.XmlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -35,19 +37,24 @@ public class TestReflect {
         ArrayList<ArrayList> listList = new ArrayList<>();
         listList.add(list);
         listList.add(list);
-        dogDTO.setListList(Collections.singletonList(listList));
+        TestDTO testDTO = new TestDTO();
+        User user = new User();
+        List<User> userList = new ArrayList<>();
+        userList.add(user);
+        testDTO.setUserList(userList);
+        dogDTO.setListList(Collections.singletonList(testDTO));
         dogDTO.setDog(dog);
         dogDTO.setDogList(list);
         dogDTO.setName("小强");
         Map map = new HashMap();
         map.put("dog1", dog);
-        map.put("dogList1", list);
+        map.put("dogList1", listList);
         map.put("str", "ser");
 
         dogDTO.setDogMap(map);
 
         try {
-            String str = XmlUtils.objectToXML(listList, "s");
+            String str = XmlUtils.objectToXML(dogDTO, "s");
             System.out.println(str);
 
         } catch (IllegalAccessException e) {
