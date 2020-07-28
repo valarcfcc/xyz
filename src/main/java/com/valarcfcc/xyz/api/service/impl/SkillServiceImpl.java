@@ -1,7 +1,5 @@
 package com.valarcfcc.xyz.api.service.impl;
 
-import com.valarcfcc.xyz.api.entity.Skill;
-import com.valarcfcc.xyz.api.mapper.SkillMapper;
 import com.valarcfcc.xyz.api.service.ISkillService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,5 @@
 package com.valarcfcc.xyz.api;
 
-import com.valarcfcc.xyz.api.entity.User;
-import com.valarcfcc.xyz.api.mapper.UserMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

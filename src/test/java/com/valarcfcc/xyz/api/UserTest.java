@@ -6,9 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.valarcfcc.xyz.DTO.DogDTO;
 import com.valarcfcc.xyz.DTO.TestDTO;
-import com.valarcfcc.xyz.api.entity.Dog;
-import com.valarcfcc.xyz.api.entity.User;
-import com.valarcfcc.xyz.api.mapper.UserMapper;
 import com.valarcfcc.xyz.api.service.IUserService;
 import com.valarcfcc.xyz.utils.MD5Utils;
 import com.valarcfcc.xyz.utils.XmlUtils;
@@ -20,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.xml.bind.JAXBException;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -30,8 +26,7 @@ import java.util.*;
 @SpringBootTest
 @Slf4j
 public class UserTest {
-    @Autowired
-    private UserMapper userMapper;
+
     @Autowired
     private IUserService userService;
 
@@ -87,81 +82,10 @@ public class UserTest {
         }
     }
 
-    @Test
-    public void xmlUtilsTest() {
-        User user = new User();
-        user.setAge(19);
-        user.setEmail("111");
-        try {
-            String str = XmlUtils.beanToXml(user, User.class);
-            System.out.println((str));
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-    }
-    @Test
-    public void listTest(){
-        List<User> userList = new ArrayList<>();
-        Integer a = 0;
-        Map user = new HashMap();
-        if(userList instanceof List){
-            System.out.println(("----- List ------"));
-        }
-        if(userList instanceof Map){
-            System.out.println(("----- Map ------"));
-        }
-        if (a instanceof Integer){
-
-        }
-
-    }
 
 
-    @Test
-    public void objTest() {
-        User user = new User();
-        user.setAge(19);
-        user.setEmail("111");
-        TestDTO testDTO = new TestDTO();
-        testDTO.setName("11");
-        testDTO.setUser(user);
-        List<User> userList = new ArrayList<>();
-        testDTO.setUserList(userList);
 
-        try {
-            Map<String, Object> map = XmlUtils.objectToMap(testDTO);
-            System.out.println("通过Map.entrySet遍历key和value");
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue().toString());
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Test
-    public void objToMapTest() {
-        User user = new User();
-        user.setAge(19);
-        user.setEmail("111");
-        try {
-            Map<String, Object> map = XmlUtils.objectToMap(user);
-            System.out.println("通过Map.entrySet遍历key和value");
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue().toString());
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void testSelect() {
-        System.out.println(("----- selectAll method test ------"));
-        List<User> userList = userMapper.selectList(null);
-        Assert.assertEquals(10, userList.size());
-        userList.forEach(System.out::println);
-    }
 
     @Test
     public void saveUser() {
@@ -255,52 +179,6 @@ public class UserTest {
         List<User> userList = userService.page(page, wrapper).getRecords();
         userList.forEach(System.out::println);
 
-    }
-
-    @Test
-    public void insertUserMapper() {
-        User user = User.builder().age(18).email("123456@qq.com").name("小明").build();
-        int isSave = userMapper.insert(user);
-        Assert.assertEquals(1, isSave);
-    }
-
-    @Test
-    public void deleteUserMapper() {
-        QueryWrapper<User> wrapper = Wrappers.query();
-        wrapper.eq("age", 28);
-        int isSave = userMapper.delete(wrapper);
-        Assert.assertEquals(1, isSave);
-    }
-
-    @Test
-    public void updateUserMapper() {
-        User user = User.builder().age(128).email("123456@qq.com").name("小明").id(new Long(13)).build();
-        int isUpdate = userMapper.updateById(user);
-        Assert.assertEquals(1, isUpdate);
-    }
-
-    @Test
-    public void selectUserMapper() {
-        QueryWrapper<User> wrapper = Wrappers.query();
-        wrapper.eq("age", "128");
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", "Billie");
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(4);
-        list.add(13);
-        // 根据 Wrapper，查询结果集。
-        List<User> userByWrapper = userMapper.selectList(wrapper);
-        // 查询（根据 columnMap 条件）
-        List<User> userByMap = userMapper.selectByMap(map);
-        // 查询（根据ID 批量查询）
-        List<User> userByList = userMapper.selectBatchIds(list);
-        System.out.println(("----- Wrapper查询结果集 ------"));
-        userByWrapper.forEach(System.out::println);
-        System.out.println(("----- Map查询结果集 ------"));
-        userByMap.forEach(System.out::println);
-        System.out.println(("----- IdList查询结果集 ------"));
-        userByList.forEach(System.out::println);
     }
 
     @Test

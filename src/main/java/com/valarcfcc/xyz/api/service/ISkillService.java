@@ -1,6 +1,5 @@
 package com.valarcfcc.xyz.api.service;
 
-import com.valarcfcc.xyz.api.entity.Skill;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

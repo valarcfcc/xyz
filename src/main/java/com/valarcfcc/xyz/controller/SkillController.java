@@ -1,4 +1,4 @@
-package com.valarcfcc.xyz.api.controller;
+package com.valarcfcc.xyz.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

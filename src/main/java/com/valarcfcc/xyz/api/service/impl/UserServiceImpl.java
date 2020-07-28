@@ -2,8 +2,6 @@ package com.valarcfcc.xyz.api.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.valarcfcc.xyz.api.entity.User;
-import com.valarcfcc.xyz.api.mapper.UserMapper;
 import com.valarcfcc.xyz.api.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
