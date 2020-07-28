@@ -17,14 +17,4 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SkillTest {
-    @Autowired
-    private UserMapper userMapper;
-
-    @Test
-    public void testSelect() {
-        System.out.println(("----- selectAll method test ------"));
-        List<User> userList = userMapper.selectList(null);
-        Assert.assertEquals(10, userList.size());
-        userList.forEach(System.out::println);
-    }
 }
