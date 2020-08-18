@@ -16,6 +16,9 @@ public class TestReflect {
 
     @Test
     public void objToXMLTest() {
+        int i = 4;
+        int c = 1&1;
+        System.out.println(c);
     }
 
 
