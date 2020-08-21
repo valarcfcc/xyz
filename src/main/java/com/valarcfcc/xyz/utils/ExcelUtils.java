@@ -2,7 +2,6 @@ package com.valarcfcc.xyz.utils;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -12,10 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ExcelUtils {
-    public static ArrayList<HashMap<Integer,String>> excel2MapList (String filePath,Integer rowNum,Integer cellNum){
+    public static List<HashMap<Integer,String>> excel2MapList (String filePath,Integer rowNum,Integer cellNum){
         Sheet sheet;
         Workbook workbook;
-        List<Map<Integer,String>> list= new ArrayList<>();
+        List<HashMap<Integer,String>> list= new ArrayList<HashMap<Integer,String>>();
         try(InputStream input = new FileInputStream(filePath)){
             String excelType = filePath.substring(filePath.lastIndexOf(".") +1);
             if(excelType.equals("xls")){
@@ -25,17 +24,26 @@ public class ExcelUtils {
             }else {
                 throw new Exception("文件类型错误!");
             }
-
+            sheet = workbook.getSheetAt(0);
+            int maxRow = sheet.getLastRowNum() +1;
+            for (int i = 0;i < rowNum;i++){
+                Row row = sheet.getRow(i);
+                HashMap<Integer,String> map = new HashMap<>();
+                for (int j = 0; j < cellNum; j++) {
+                    map.put(j,getDataFromExcel(row,j));
+                }
+                list.add(map);
+            }
         }catch (Exception e){
-
+            System.out.println(e.getMessage());
         }
-        return null;
+        return list;
     }
 
     private static String getDataFromExcel(Row row,Integer number) throws Exception {
         String val = "";
         Cell cell = row.getCell(number);
-        if(cell != null && !cell.toString().equals("")){
+//        if(cell != null && !cell.toString().equals("")){
             switch (cell.getCellType()){
                 case Cell.CELL_TYPE_STRING:
                     val = cell.getStringCellValue();
@@ -59,9 +67,9 @@ public class ExcelUtils {
                 default:
                     throw new Exception("数据类型不匹配");
             }
-        }else {
-            throw new Exception("数据为空！");
-        }
+//        }else {
+//            throw new Exception("数据为空！");
+//        }
         return val;
     }
 }
