@@ -1,4 +1,4 @@
-package com.valarcfcc.xyz;
+package com.valarcfcc.xyz.UtilsTest;
 
 import com.valarcfcc.xyz.utils.Base64Utils;
 import com.valarcfcc.xyz.utils.ExcelUtils;
@@ -93,4 +93,5 @@ public class UtilsTest {
     public void img() {
         System.out.println("data:image/png;base64," + Base64Utils.ImageFilePathBase64("D:/img.png"));
     }
+
 }
