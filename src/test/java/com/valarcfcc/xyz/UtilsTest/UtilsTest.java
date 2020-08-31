@@ -38,7 +38,9 @@ public class UtilsTest {
             configuration.setDefaultEncoding("utf-8");
             configuration.setDirectoryForTemplateLoading(new File("D:/"));
             //输出文档路径及名称
-            File outFile = new File("D:/ftl.doc");
+            File outFile = new File("D:/" +
+                    System.currentTimeMillis()+
+                    "ftl.doc");
             //以utf-8的编码读取ftl文件
             Template template = configuration.getTemplate("ftl.ftl", "utf-8");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8), 10240);
@@ -55,8 +57,6 @@ public class UtilsTest {
         try {
             List<Map<String, Object>> list = new ArrayList<>();
             int b1 = 0;
-            int b2 = 0;
-            int b3 = 0;
             for (int i = 0; i < 5; i++) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("b", i);
@@ -74,15 +74,25 @@ public class UtilsTest {
             dataMap.put("b2", b1 + 2);
             dataMap.put("b3", b1 + 3);
             dataMap.put("img", Base64Utils.ImageFilePathBase64("D:/img.png"));
+            List<Map> taskList = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                taskList.add(dataMap);
+            }
+            Map<String,Object> map = new HashMap<>();
+            map.put("bigLists",taskList);
             Configuration configuration = new Configuration(new Version("2.3.0"));
             configuration.setDefaultEncoding("utf-8");
             configuration.setDirectoryForTemplateLoading(new File("/"));
             //输出文档路径及名称
-            File outFile = new File("/list.docx");
+            String pathName= "/" +
+                    "list" + System.currentTimeMillis()+
+                    ".docx";
+            File outFile = new File(pathName);
             //以utf-8的编码读取ftl文件
+            System.out.println(pathName);
             Template template = configuration.getTemplate("list.ftl", "utf-8");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8), 10240);
-            template.process(dataMap, out);
+            template.process(map, out);
             out.close();
         } catch (IOException | TemplateException e) {
             e.printStackTrace();

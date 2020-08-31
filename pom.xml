@@ -19,6 +19,12 @@
         <java.version>1.8</java.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>com.e-iceblue</id>
+            <url>http://repo.e-iceblue.cn/repository/maven-public/</url>
+        </repository>
+    </repositories>
     <dependencies>
 
         <dependency>
@@ -31,6 +37,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
 
         <dependency> <!-- 引入log4j2依赖 -->
             <groupId>org.springframework.boot</groupId>
@@ -137,7 +144,11 @@
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>e-iceblue</groupId>
+            <artifactId>spire.doc.free</artifactId>
+            <version>2.7.3</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -177,6 +188,18 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.9</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>3.9</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/fr.opensagres.xdocreport/org.apache.poi.xwpf.converter.xhtml -->
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
         <!--工具-->
         <dependency>
             <groupId>org.projectlombok</groupId>
