@@ -96,7 +96,7 @@ public class Base64Utils {
 
     /**
      * 远程读取image转换为Base64字符串
-     * @param imgUrl =图片地址全路径
+     * @param imgUrl 图片地址全路径
      * @return Base64字符串
      */
     public static String ImageUrlBase64(String imgUrl) {
