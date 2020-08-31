@@ -1,6 +1,5 @@
 package com.valarcfcc.xyz.utils;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -8,17 +7,33 @@ import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.apache.xmlbeans.XmlOptions;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTBody;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * @author valarcfcc
+ *  描述:
+ *  @author valarcfcc
+ *  @since 2020/8/31 22:56
  */
 public class DocxUtils {
     private static final String PATH = "/docs/";
     private static final String SUFFIX = ".docx";
 
+    /**
+    * 功能描述: 合并word文件，不支持文件里有表格
+    * @author  valarcfcc
+    * @since   2020/8/31 22:56
+    * @param  filePathList 读取文件路径
+    * @return   outFilePath
+    */
     public static String mergeWord(List<String> filePathList) {
+
         String outFileName = null;
         if (!filePathList.isEmpty()) {
             List<File> srcFileList = new ArrayList<>();
