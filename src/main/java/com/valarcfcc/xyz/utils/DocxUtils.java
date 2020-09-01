@@ -1,5 +1,9 @@
 package com.valarcfcc.xyz.utils;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.Version;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -7,10 +11,9 @@ import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.apache.xmlbeans.XmlOptions;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTBody;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -112,4 +115,30 @@ public class DocxUtils {
         CTBody makeBody = CTBody.Factory.parse(prefix + mainPart + addPart + sufix);
         src.set(makeBody);
     }
+
+
+    public static String creatWordByTemplate(String templateName,Map<String, Object> dataMap){
+        try {
+            URL url = DocxUtils.class.getClass().getClassLoader().getResource("/");
+            String templatePath = url.getFile();
+            Configuration configuration = new Configuration(new Version("2.3.0"));
+            configuration.setDefaultEncoding("utf-8");
+
+            configuration.setDirectoryForTemplateLoading(new File(templatePath));
+            //输出文档路径及名称
+            File outFile = new File("D:/" +
+                    System.currentTimeMillis()+
+                    "ftl.doc");
+            //以utf-8的编码读取ftl文件
+            Template template = configuration.getTemplate(templateName, "utf-8");
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8), 10240);
+            template.process(dataMap, out);
+            out.close();
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.valarcfcc.xyz.UtilsTest;
 
 import com.valarcfcc.xyz.utils.Base64Utils;
+import com.valarcfcc.xyz.utils.DocxUtils;
 import com.valarcfcc.xyz.utils.ExcelUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -20,9 +21,17 @@ import java.util.Map;
 public class UtilsTest {
     @Test
     public void excelTest() {
-        String filePath = "D://test.xlsx";
-        List<HashMap<Integer, String>> list = ExcelUtils.excel2MapList(filePath, 5, 5);
-        list.forEach(System.out::println);
+
+            Map<String, Object> dataMap = new HashMap<>();
+
+                dataMap.put("title", "test");
+                dataMap.put("name", "lim59");
+                dataMap.put("year", "1994");
+                dataMap.put("month", "1");
+                dataMap.put("day", "1");
+        DocxUtils.creatWordByTemplate("ftl.ftl",dataMap);
+
+
     }
 
     @Test
@@ -103,5 +112,6 @@ public class UtilsTest {
     public void img() {
         System.out.println("data:image/png;base64," + Base64Utils.ImageFilePathBase64("D:/img.png"));
     }
+
 
 }
