@@ -1,6 +1,7 @@
 package com.valarcfcc.xyz.UtilsTest;
 
 import com.valarcfcc.xyz.utils.DocxUtils;
+import com.valarcfcc.xyz.utils.PropertiesUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,11 @@ import java.util.List;
 @SpringBootTest
 @Slf4j
 public class WordUtilsTest {
+
+    @Test
+    public void configTest(){
+        System.out.println(PropertiesUtils.getCommonYml("application.path.temp"));
+    }
     @Test
     public void MergeTest(){
         String template="D:/docs";

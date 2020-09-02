@@ -1,15 +1,20 @@
 package com.valarcfcc.xyz.UtilsTest;
 
+import com.valarcfcc.xyz.XyzApplication;
+import com.valarcfcc.xyz.config.SysConfig;
 import com.valarcfcc.xyz.utils.Base64Utils;
 import com.valarcfcc.xyz.utils.DocxUtils;
-import com.valarcfcc.xyz.utils.ExcelUtils;
+import com.valarcfcc.xyz.utils.ValueUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.Version;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -19,17 +24,23 @@ import java.util.Map;
 
 @SpringBootTest
 public class UtilsTest {
+    @Resource
+    private SysConfig sysConfig;
+    @Test
+    public void configTest() throws Exception {
+        ValueUtils.getValue(sysConfig);
+        System.out.println(sysConfig.getTempPath());
+    }
     @Test
     public void excelTest() {
 
-            Map<String, Object> dataMap = new HashMap<>();
-
-                dataMap.put("title", "test");
-                dataMap.put("name", "lim59");
-                dataMap.put("year", "1994");
-                dataMap.put("month", "1");
-                dataMap.put("day", "1");
-        DocxUtils.creatWordByTemplate("ftl.ftl",dataMap);
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("title", "test");
+        dataMap.put("name", "lim59");
+        dataMap.put("year", "1994");
+        dataMap.put("month", "1");
+        dataMap.put("day", "1");
+        DocxUtils.creatWordByTemplate("ftl.ftl", dataMap);
 
 
     }
@@ -48,7 +59,7 @@ public class UtilsTest {
             configuration.setDirectoryForTemplateLoading(new File("D:/"));
             //输出文档路径及名称
             File outFile = new File("D:/" +
-                    System.currentTimeMillis()+
+                    System.currentTimeMillis() +
                     "ftl.doc");
             //以utf-8的编码读取ftl文件
             Template template = configuration.getTemplate("ftl.ftl", "utf-8");
@@ -87,14 +98,14 @@ public class UtilsTest {
             for (int i = 0; i < 5; i++) {
                 taskList.add(dataMap);
             }
-            Map<String,Object> map = new HashMap<>();
-            map.put("bigLists",taskList);
+            Map<String, Object> map = new HashMap<>();
+            map.put("bigLists", taskList);
             Configuration configuration = new Configuration(new Version("2.3.0"));
             configuration.setDefaultEncoding("utf-8");
             configuration.setDirectoryForTemplateLoading(new File("/"));
             //输出文档路径及名称
-            String pathName= "/" +
-                    "list" + System.currentTimeMillis()+
+            String pathName = "/" +
+                    "list" + System.currentTimeMillis() +
                     ".docx";
             File outFile = new File(pathName);
             //以utf-8的编码读取ftl文件

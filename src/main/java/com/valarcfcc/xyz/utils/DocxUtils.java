@@ -119,8 +119,11 @@ public class DocxUtils {
 
     public static String creatWordByTemplate(String templateName,Map<String, Object> dataMap){
         try {
-            URL url = DocxUtils.class.getClass().getClassLoader().getResource("/");
-            String templatePath = url.getFile();
+            URL url = DocxUtils.class.getClassLoader().getResource("templates/");
+            String templatePath = null;
+            if (url != null) {
+                templatePath = url.getFile();
+            }
             Configuration configuration = new Configuration(new Version("2.3.0"));
             configuration.setDefaultEncoding("utf-8");
 

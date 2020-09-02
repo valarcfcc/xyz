@@ -21,3 +21,10 @@ mybatis-plus:
       logic-not-delete-value: 0
 logging:
   config: classpath:log4j2.xml
+  file:
+    path:
+    name:
+
+application:
+  path:
+    temp: /Back/temp/

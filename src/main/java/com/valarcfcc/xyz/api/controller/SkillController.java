@@ -1,6 +1,7 @@
 package com.valarcfcc.xyz.api.controller;
 
 
+import com.valarcfcc.xyz.config.SysConfig;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -22,10 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/api/skill")
 public class SkillController {
 
+    @Resource
+    private SysConfig sysConfig;
     @ApiOperation(value = "hello", notes = "Hello")
     @GetMapping("hello")
     public @ResponseBody
     String hello() {
-        return "hello";
+        return sysConfig.getTempPath();
     }
 }
