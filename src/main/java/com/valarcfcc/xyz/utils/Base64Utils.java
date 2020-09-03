@@ -52,7 +52,7 @@ public class Base64Utils {
      * @return 图片
      */
 
-    public static byte[] imageTobyte(String path){
+    public static byte[] imageToByte(String path){
         byte[] data = null;
         FileImageInputStream input;
         try {
