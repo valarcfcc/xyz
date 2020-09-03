@@ -1,5 +1,7 @@
 package com.valarcfcc.xyz.utils;
 
+import com.valarcfcc.xyz.config.SysConfig;
+import com.valarcfcc.xyz.constant.GlobalConstants;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -119,6 +121,8 @@ public class DocxUtils {
 
     public static String creatWordByTemplate(String templateName,Map<String, Object> dataMap){
         try {
+            SysConfig sysConfig = new SysConfig();
+            ValueUtils.getValue(sysConfig);
             URL url = DocxUtils.class.getClassLoader().getResource("templates/");
             String templatePath = null;
             if (url != null) {
@@ -129,15 +133,16 @@ public class DocxUtils {
 
             configuration.setDirectoryForTemplateLoading(new File(templatePath));
             //输出文档路径及名称
-            File outFile = new File("D:/" +
+            File outFile = new File(sysConfig.getTempPath()+ templateName +
                     System.currentTimeMillis()+
-                    "ftl.doc");
+                    GlobalConstants.Symbol.SPOT + GlobalConstants.FileFormat.DOCX);
             //以utf-8的编码读取ftl文件
-            Template template = configuration.getTemplate(templateName, "utf-8");
+            String templateFile = templateName +GlobalConstants.Symbol.SPOT + GlobalConstants.FileFormat.FTL;
+            Template template = configuration.getTemplate(templateFile, "utf-8");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8), 10240);
             template.process(dataMap, out);
             out.close();
-        } catch (IOException | TemplateException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

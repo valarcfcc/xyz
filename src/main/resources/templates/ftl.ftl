@@ -6,16 +6,16 @@
             <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
                 <Relationship Id="rId4"
                     Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"
-                    Target="word/document.xml" />
+                    Target="word/document.xml"></Relationship>
                 <Relationship Id="rId2"
                     Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties"
-                    Target="docProps/core.xml" />
+                    Target="docProps/core.xml"></Relationship>
                 <Relationship Id="rId1"
                     Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties"
-                    Target="docProps/app.xml" />
+                    Target="docProps/app.xml"></Relationship>
                 <Relationship Id="rId3"
                     Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties"
-                    Target="docProps/custom.xml" />
+                    Target="docProps/custom.xml"></Relationship>
             </Relationships>
         </pkg:xmlData>
     </pkg:part>
@@ -25,18 +25,18 @@
             <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
                 <Relationship Id="rId5"
                     Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable"
-                    Target="fontTable.xml" />
+                    Target="fontTable.xml"></Relationship>
                 <Relationship Id="rId4"
                     Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml"
-                    Target="../customXml/item1.xml" />
+                    Target="../customXml/item1.xml"></Relationship>
                 <Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme"
-                    Target="theme/theme1.xml" />
+                    Target="theme/theme1.xml"></Relationship>
                 <Relationship Id="rId2"
                     Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings"
-                    Target="settings.xml" />
+                    Target="settings.xml"></Relationship>
                 <Relationship Id="rId1"
                     Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"
-                    Target="styles.xml" />
+                    Target="styles.xml"></Relationship>
             </Relationships>
         </pkg:xmlData>
     </pkg:part>
@@ -145,7 +145,7 @@
             <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
                 <Relationship Id="rId1"
                     Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXmlProps"
-                    Target="itemProps1.xml" />
+                    Target="itemProps1.xml"></Relationship>
             </Relationships>
         </pkg:xmlData>
     </pkg:part>

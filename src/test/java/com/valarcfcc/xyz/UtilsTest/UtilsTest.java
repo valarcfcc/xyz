@@ -33,16 +33,13 @@ public class UtilsTest {
     }
     @Test
     public void excelTest() {
-
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("title", "test");
         dataMap.put("name", "lim59");
         dataMap.put("year", "1994");
         dataMap.put("month", "1");
         dataMap.put("day", "1");
-        DocxUtils.creatWordByTemplate("ftl.ftl", dataMap);
-
-
+        DocxUtils.creatWordByTemplate("ftl", dataMap);
     }
 
     @Test
@@ -94,7 +91,7 @@ public class UtilsTest {
             dataMap.put("b2", b1 + 2);
             dataMap.put("b3", b1 + 3);
             dataMap.put("img", Base64Utils.ImageFilePathBase64("D:/img.png"));
-            List<Map> taskList = new ArrayList<>();
+            List<Map<String, Object>> taskList = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 taskList.add(dataMap);
             }
