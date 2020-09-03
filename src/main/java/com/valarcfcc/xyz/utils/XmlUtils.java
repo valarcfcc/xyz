@@ -1,37 +1,23 @@
 package com.valarcfcc.xyz.utils;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import java.io.StringWriter;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-/**
- * @Auther: valarcfcc
- * @Date: 2020/7/22 22:53
- * @Description:
- */
 @Slf4j
 public class XmlUtils {
 
     /**
-     * @Description: 实体类转xml node为节点前缀
-     * @param obj
-     * @param node
-     * @return
-     * @throws IllegalAccessException
+     * 实体类转xml node为节点前缀
+     * @param obj 对象
+     * @param node 节点前缀
      */
-    public static String objectToXML(@NotNull Object obj, @NotNull String node) throws IllegalAccessException {
+    public static String objectToXML( Object obj, String node) throws IllegalAccessException {
         StringBuffer soapResultData = new StringBuffer();
         Class<?> clazz = obj.getClass();
         if (isBaseOrStringOrMath(obj)) {
