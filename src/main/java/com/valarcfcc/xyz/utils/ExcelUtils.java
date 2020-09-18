@@ -75,15 +75,15 @@ public class ExcelUtils {
         }else if(str.contains(NUMBER)){
             int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
             int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
-            type.append(DB_NUMBER).append(str.substring(beginIndex,endIndex+1));
+            type.append(DB_NUMBER).append(str, beginIndex, endIndex+1);
         } else if (str.contains(CHAR)){
             int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
             int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
-            type.append(DB_CHAR).append(str.substring(beginIndex,endIndex+1));
+            type.append(DB_CHAR).append(str, beginIndex, endIndex+1);
         }else if (str.contains(NVARCHAR2)){
             int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
             int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
-            type.append(DB_NVARCHAR2).append(str.substring(beginIndex,endIndex+1));
+            type.append(DB_NVARCHAR2).append(str, beginIndex, endIndex+1);
         }
         return type.toString();
     }
@@ -92,7 +92,7 @@ public class ExcelUtils {
     public static List<HashMap<Integer,String>> excel2MapList (String filePath,Integer rowNum,Integer cellNum){
         Sheet sheet;
         Workbook workbook;
-        List<HashMap<Integer,String>> list= new ArrayList<HashMap<Integer,String>>();
+        List<HashMap<Integer,String>> list= new ArrayList<>();
         try(InputStream input = new FileInputStream(filePath)){
             String excelType = filePath.substring(filePath.lastIndexOf(".") +1);
             if(excelType.equals("xls")){
@@ -127,8 +127,8 @@ public class ExcelUtils {
                     val = cell.getStringCellValue();
                     break;
                     case Cell.CELL_TYPE_BOOLEAN:
-                        Boolean flag = cell.getBooleanCellValue();
-                        val = flag.toString();
+                        boolean flag = cell.getBooleanCellValue();
+                        val = Boolean.toString(flag);
                         break;
                         case Cell.CELL_TYPE_NUMERIC:
                             if(DateUtil.isCellDateFormatted(cell)){
