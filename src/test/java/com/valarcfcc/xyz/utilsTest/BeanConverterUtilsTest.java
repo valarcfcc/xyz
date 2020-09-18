@@ -1,4 +1,4 @@
-package com.valarcfcc.xyz.UtilsTest;
+package com.valarcfcc.xyz.utilsTest;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

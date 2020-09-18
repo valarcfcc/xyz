@@ -1,4 +1,4 @@
-package com.valarcfcc.xyz.UtilsTest;
+package com.valarcfcc.xyz.utilsTest;
 
 import com.valarcfcc.xyz.config.SysConfig;
 import com.valarcfcc.xyz.utils.Base64Utils;

@@ -1,4 +1,4 @@
-package com.valarcfcc.xyz.UtilsTest;
+package com.valarcfcc.xyz.utilsTest;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.SpringBootTest;
