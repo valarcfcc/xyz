@@ -45,7 +45,11 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-
+        <!--批处理-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-batch</artifactId>-->
+<!--        </dependency>-->
         <!--测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

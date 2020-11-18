@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+//@EnableBatchProcessing
 @MapperScan("com.valarcfcc.xyz.api.mapper")
 public class XyzApplication {
 

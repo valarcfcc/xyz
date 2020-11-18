@@ -12,4 +12,8 @@ public class User {
     private Integer age;
     private Long id;
     private String name;
+    public void useCar(Car car){
+        car.run();
+    }
+
 }

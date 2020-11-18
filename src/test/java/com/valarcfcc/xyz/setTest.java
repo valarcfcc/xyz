@@ -1,5 +1,7 @@
 package com.valarcfcc.xyz;
 
+import com.valarcfcc.xyz.api.entity.BMM;
+import com.valarcfcc.xyz.api.entity.Car;
 import com.valarcfcc.xyz.api.entity.User;
 import com.valarcfcc.xyz.constant.Season;
 import com.valarcfcc.xyz.utils.BeanUtils;
@@ -7,10 +9,21 @@ import com.valarcfcc.xyz.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.math.BigDecimal;
+
 import static com.valarcfcc.xyz.utils.Common.println;
 @SpringBootTest
 @Slf4j
 public class setTest {
+    @Test
+    public void useCar(){
+        User lim59 = new User();
+        lim59.useCar(new BMM());
+        Car[] cars = { new Car(),new BMM()};
+//        ((BMM)cars[1]).song();
+        BMM bmm = ((BMM)cars[0]);
+    }
     @Test
     public void toStringTest(){
 
@@ -19,6 +32,14 @@ public class setTest {
         user.setId(1l);
         user.setName("111");
         BeanUtils.readAttributeValue(user);
+    }
+    @Test
+    public void bigTest(){
+
+        BigDecimal bigDecimal2 = new BigDecimal("1");
+        BigDecimal bigDecimal1 = new BigDecimal("0");
+        //log.info(String.valueOf((bigDecimal1.compareTo(bigDecimal2))));
+        log.info(String.valueOf(Math.pow(1.05,30)));
     }
     @Test
     public void outTest(){
