@@ -68,7 +68,7 @@ public class FileUtilsTest {
     public void copeFile2(){
         long time1 = System.currentTimeMillis();
         try {
-            FileUtils.copyFileBuffered("E:\\video\\【Top002】教父.The.Godfather.1972.mkv","D:\\【Top002】教父.The.Godfather.1972.mkv");
+            FileUtils.copyFileBuffered("D:\\【Top002】教父.The.Godfather.1972.mkv","D:\\教父.The.Godfather.1.mkv");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,7 @@ public class FileUtilsTest {
         // 使用普通字节流实现复制
         long time3 = System.currentTimeMillis();
         try {
-            FileUtils.copyFile("E:\\video\\【Top002】教父.The.Godfather.1972.mkv","D:\\教父.The.Godfather.1972.mkv");
+            FileUtils.copyFile("D:\\【Top002】教父.The.Godfather.1972.mkv","D:\\教父.The.Godfather.2.mkv");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +87,7 @@ public class FileUtilsTest {
 
         // 使用普通字节流实现复制
         long time5 = System.currentTimeMillis();
-        FileUtils.copyFile2("E:\\video\\【Top002】教父.The.Godfather.1972.mkv","D:\\1教父.The.Godfather.1972.mkv");
+        FileUtils.copyFile2("D:\\【Top002】教父.The.Godfather.1972.mkv","D:\\教父.The.Godfather.3.mkv");
         long time6 = System.currentTimeMillis();
         System.out.println("普通字节流花费的时间为：" + (time6 - time5));
     }
