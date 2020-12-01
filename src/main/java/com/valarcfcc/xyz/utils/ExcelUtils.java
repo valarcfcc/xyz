@@ -12,6 +12,20 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ExcelUtils {
+    /***
+     * 根据excel文件生成建表sql
+     * @param filePath 文件路径
+     * @param rowNum 行数
+     * @param cellNum 列数
+     * @param tableName 表名
+     * @param pkNum 主键列标
+     * @param columnNum 字段列标
+     * @param typeNum 类型列标
+     * @param defaultNum 默认值列标
+     * @param nullNum 为空列标
+     * @param commentNum 描述列标
+     * @return 建表sql
+     */
     public static String excel2Sql(String filePath, Integer rowNum, Integer cellNum, String tableName,
                                    Integer pkNum, Integer columnNum, Integer typeNum, Integer defaultNum, Integer nullNum, Integer commentNum) {
         StringBuilder str = new StringBuilder();
@@ -91,6 +105,14 @@ public class ExcelUtils {
     }
 
 
+    /***
+     *  <p>从excel获取数据</p>
+     *  list是一行数据，map是行里的数据，key=列标，value=值（字符串）
+     * @param filePath excel文件路径
+     * @param rowNum 行数
+     * @param cellNum 列数
+     * @return 数据集
+     */
     public static List<HashMap<Integer, String>> excel2MapList(String filePath, Integer rowNum, Integer cellNum) {
         Sheet sheet;
         Workbook workbook;
