@@ -41,7 +41,7 @@ public class ExcelUtils {
             return "空";
         } else {
             str.append("CREATE TABLE ").append(tableName).append("( ");
-            for (int i = 1; i < list.size(); i++) {
+            for (int i = 0; i < list.size(); i++) {
                 map = list.get(i);
                 column = map.get(columnNum);
                 type = map.get(typeNum);
@@ -49,7 +49,7 @@ public class ExcelUtils {
                 defaultStr = map.get(defaultNum);
                 nullStr = map.get(nullNum);
                 str.append(column).append(" ").append(getType(type));
-                if ("PK".equals(pk)) {
+                if ("PK".equals(pk.toUpperCase())) {
                     str.append(" NOT NULL PRIMARY KEY");
                 } else {
                     if (nullStr.contains("NOT")) {
@@ -89,26 +89,25 @@ public class ExcelUtils {
 
     private static String getType(String str) {
         StringBuilder type = new StringBuilder();
-        if (DATE.equals(str)||TIMESTAMP.equals(str)) {
+        if (DATE.equals(str) || TIMESTAMP.equals(str)) {
             type.append(DB_DATE);
         } else if (str.contains(NUMBER)) {
             int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
             int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
             type.append(DB_NUMBER).append(str, beginIndex, endIndex + 1);
-        } else if (str.contains(NVARCHAR2)) {
+        } else {
+            if (str.contains(NVARCHAR2)) {
+                type.append(DB_NVARCHAR2);
+            } else if (str.contains(VARCHAR)) {
+                type.append(DB_VARCHAR);
+            } else if (str.contains(CHAR)) {
+                type.append(DB_NVARCHAR2);
+            }
             int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
             int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
-            type.append(DB_NVARCHAR2).append(str, beginIndex, endIndex + 1);
-        }
-        else if (str.contains(VARCHAR)) {
-            int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
-            int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
-            type.append(DB_VARCHAR).append(str, beginIndex, endIndex + 1);
-        }
-        else if (str.contains(CHAR)) {
-            int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
-            int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
-            type.append(DB_CHAR).append(str, beginIndex, endIndex + 1);
+            int number = Integer.parseInt(str.substring(beginIndex + 1, endIndex)) * 2;
+            type.append(GlobalConstants.Symbol.OPEN_PARENTHESIS).append(number).append(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
+
         }
         return type.toString();
     }
