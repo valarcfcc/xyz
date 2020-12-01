@@ -76,6 +76,7 @@ public class ExcelUtils {
     }
 
     private static final String DATE = "DATE";
+    private static final String TIMESTAMP = "TIMESTAMP";
     private static final String DB_DATE = "TIMESTAMP";
     private static final String NUMBER = "NUMBER";
     private static final String DB_NUMBER = "DECIMAL";
@@ -83,10 +84,12 @@ public class ExcelUtils {
     private static final String DB_CHAR = "CHARACTER";
     private static final String NVARCHAR2 = "NVARCHAR2";
     private static final String DB_NVARCHAR2 = "VARCHAR";
+    private static final String VARCHAR = "VARCHAR";
+    private static final String DB_VARCHAR = "VARCHAR";
 
     private static String getType(String str) {
         StringBuilder type = new StringBuilder();
-        if (DATE.equals(str)) {
+        if (DATE.equals(str)||TIMESTAMP.equals(str)) {
             type.append(DB_DATE);
         } else if (str.contains(NUMBER)) {
             int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
@@ -96,7 +99,13 @@ public class ExcelUtils {
             int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
             int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
             type.append(DB_NVARCHAR2).append(str, beginIndex, endIndex + 1);
-        } else if (str.contains(CHAR)) {
+        }
+        else if (str.contains(VARCHAR)) {
+            int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
+            int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
+            type.append(DB_VARCHAR).append(str, beginIndex, endIndex + 1);
+        }
+        else if (str.contains(CHAR)) {
             int beginIndex = str.indexOf(GlobalConstants.Symbol.OPEN_PARENTHESIS);
             int endIndex = str.lastIndexOf(GlobalConstants.Symbol.CLOSE_PARENTHESIS);
             type.append(DB_CHAR).append(str, beginIndex, endIndex + 1);
