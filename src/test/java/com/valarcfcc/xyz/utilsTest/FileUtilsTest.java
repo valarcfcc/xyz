@@ -7,10 +7,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.valarcfcc.xyz.utils.Common.println;
 
@@ -21,6 +18,39 @@ public class FileUtilsTest {
         String path = "C:\\Users\\cheng\\OneDrive\\blog";
         FileUtils.getFiles(fileList, path);
         fileList.forEach(Common::println);
+    }
+    @Test
+    public void filePathTest() {
+        Map<String,File> oldFileMap = new HashMap<>();
+        String oldPath = "";
+        List<String> ignoreFile = new ArrayList(){{
+
+        }};
+        List<String> ignoreDir = new ArrayList(){{
+
+        }};
+        FileUtils.getFilesNotIgnore(oldFileMap,oldPath,ignoreDir,ignoreFile);
+        Map<String,File> newFileMap = new HashMap<>();
+        String newPath = "";
+        FileUtils.getFilesNotIgnore(newFileMap,newPath,ignoreDir,ignoreFile);
+        List<String> codeNewList = new ArrayList<>();
+        List<String> codeModList = new ArrayList<>();
+        newFileMap.forEach((key,file)->{
+            if(!oldFileMap.containsKey(key.replace(newPath,oldPath))){
+                codeNewList.add(key.replace(newPath,oldPath));
+            } else {
+                try {
+                    if (!FileUtils.contentEquals(file,oldFileMap.get(key.replace(newPath,oldPath)))){
+                        codeModList.add(key.replace(newPath,oldPath));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Collections.sort(codeModList);
+        Collections.sort(codeNewList);
+
     }
 
     @Test
