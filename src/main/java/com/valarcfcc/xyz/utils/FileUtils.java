@@ -1,6 +1,8 @@
 package com.valarcfcc.xyz.utils;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,6 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
      * 描述:  获取文件列表
-     *
      * @param fileList 文件列表
      * @param fileMap  文件名-文件
      * @param path     路径
@@ -63,7 +64,6 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
      * 描述:  获取文件列表
-     *
      * @param fileList 文件列表
      * @param path     路径
      * @author valarcfcc
@@ -92,7 +92,6 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
      * 描述:  获取文件列表
-     *
      * @param fileMap 文件名-文件
      * @param path    路径
      * @author valarcfcc
@@ -120,7 +119,6 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
      * 描述:  获取文件列表
-     *
      * @param fileList 文件名列表
      * @param path     路径
      * @author valarcfcc
@@ -146,10 +144,8 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
             e.printStackTrace();
         }
     }
-
     /**
      * 将src文件的内容拷贝到dec文件
-     *
      * @param src 源文件
      * @param dec 目标文件
      */
@@ -157,14 +153,14 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
         //为了提高效率，创建缓冲用的字符数组
         char[] buffer = new char[1024];
         int temp;
-        if ((new File(src)).exists()) {
-            try (FileReader inputFile = new FileReader(src);
-                 FileWriter outputStream = new FileWriter(dec)) {
-                while ((temp = inputFile.read(buffer)) != -1) {
+        if( (new File(src)).exists()){
+            try(FileReader inputFile = new FileReader(src);
+                FileWriter outputStream = new FileWriter(dec)){
+                while ((temp = inputFile.read(buffer))!=-1){
                     /*将缓存数组中的数据写入文件中，注意：写入的是读取的真实长度；
                      *outputStream.write(buffer)方法，那么写入的长度将会是1024，即缓存
                      *数组的长度*/
-                    outputStream.write(buffer, 0, temp);
+                    outputStream.write(buffer,0,temp);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -177,18 +173,17 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
      * 将src文件的内容拷贝到dec文件
-     *
      * @param src 源文件
      * @param dec 目标文件
      */
     public static void copyFile(String src, String dec) throws IOException {
         byte[] buffer = new byte[1024];
         int temp;
-        if ((new File(src)).exists()) {
-            try (FileInputStream inputFile = new FileInputStream(src);
-                 FileOutputStream outputStream = new FileOutputStream(dec)) {
-                while ((temp = inputFile.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, temp);
+        if( (new File(src)).exists()){
+            try(FileInputStream inputFile = new FileInputStream(src);
+                FileOutputStream outputStream = new FileOutputStream(dec)){
+                while ((temp = inputFile.read(buffer))!=-1){
+                    outputStream.write(buffer,0,temp);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -198,11 +193,10 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
         }
 
     }
-
     public static void copyFile2(String src, String dec) {
         int temp;
-        try (FileInputStream inputFile = new FileInputStream(src);
-             FileOutputStream outputStream = new FileOutputStream(dec)) {
+        try(FileInputStream inputFile = new FileInputStream(src);
+            FileOutputStream outputStream = new FileOutputStream(dec)){
             while ((temp = inputFile.read()) != -1) {
                 outputStream.write(temp);
             }
@@ -210,22 +204,20 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
             e.printStackTrace();
         }
     }
-
     /**
      * 将src文件的内容拷贝到dec文件
-     *
      * @param src 源文件
      * @param dec 目标文件
      */
     public static void copyFileBuffered(String src, String dec) throws IOException {
         int temp;
-        if ((new File(src)).exists()) {
+        if( (new File(src)).exists()){
             //使用缓冲字节流包装文件字节流，增加缓冲功能，提高效率
             //缓存区的大小（缓存数组的长度）默认是8192，也可以自己指定大小
-            try (FileInputStream inputStream = new FileInputStream(src);
-                 BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-                 FileOutputStream outputStream = new FileOutputStream(dec);
-                 BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)) {
+            try(FileInputStream inputStream = new FileInputStream(src);
+                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                FileOutputStream outputStream = new FileOutputStream(dec);
+                BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)){
                 while ((temp = bufferedInputStream.read()) != -1) {
                     bufferedOutputStream.write(temp);
                 }
@@ -236,10 +228,8 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
             throw new IOException("源文件不存在！");
         }
     }
-
     /**
      * 将src文件的内容拷贝到dec文件
-     *
      * @param src 源文件
      * @param dec 目标文件
      */
@@ -265,6 +255,74 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
             }
         } else {
             throw new IOException("源文件不存在！");
+        }
+    }
+
+    /**
+     * 从网络Url中下载文件
+     * @param urlStr
+     * @param fileName
+     * @param savePath
+     * @throws IOException
+     */
+    public static void  downLoadFromUrl(String urlStr,String fileName,String savePath) throws IOException{
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        //设置超时间为3秒
+        conn.setConnectTimeout(3*1000);
+        //防止屏蔽程序抓取而返回403错误
+        conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+
+        //得到输入流
+        InputStream inputStream = conn.getInputStream();
+        //获取自己数组
+        byte[] getData = readInputStream(inputStream);
+
+        //文件保存位置
+        File saveDir = new File(savePath);
+        if(!saveDir.exists()){
+            saveDir.mkdir();
+        }
+        File file = new File(saveDir+File.separator+fileName);
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(getData);
+        if(fos!=null){
+            fos.close();
+        }
+        if(inputStream!=null){
+            inputStream.close();
+        }
+
+
+        System.out.println("info:"+url+" download success");
+
+    }
+
+
+
+    /**
+     * 从输入流中获取字节数组
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
+    public static  byte[] readInputStream(InputStream inputStream) throws IOException {
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        while((len = inputStream.read(buffer)) != -1) {
+            bos.write(buffer, 0, len);
+        }
+        bos.close();
+        return bos.toByteArray();
+    }
+
+    public static void main(String[] args) {
+        try{
+            downLoadFromUrl("http://101.95.48.97:8005/res/upload/interface/apptutorials/manualstypeico/6f83ce8f-0da5-49b3-bac8-fd5fc67d2725.png",
+                    "百度.jpg","d:/resource/images/diaodiao/country/");
+        }catch (Exception e) {
+            // TODO: handle exception
         }
     }
 }
