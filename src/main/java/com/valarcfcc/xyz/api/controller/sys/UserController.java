@@ -1,11 +1,14 @@
 package com.valarcfcc.xyz.api.controller.sys;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.valarcfcc.xyz.api.entity.User;
+import com.valarcfcc.xyz.api.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Auther: valarcfcc
  * @Date: 2020/7/28 22:44
@@ -31,6 +38,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 @RequestMapping("user")
 public class UserController {
+    @Resource
+    private UserService userService;
 
     @ApiIgnore
     @GetMapping("hello")
@@ -93,6 +102,11 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         map.put("result", "success");
         return map;
+    }
+
+    @GetMapping("/user/excel")
+    public void excelExport(HttpServletResponse response) throws IOException {
+        userService.excelExport(response);
     }
 
 }

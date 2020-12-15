@@ -5,11 +5,17 @@ import com.valarcfcc.xyz.utils.FileUtils;
 import com.valarcfcc.xyz.utils.Type;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import static com.valarcfcc.xyz.utils.Common.println;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 public class FileUtilsTest {
     @Test
@@ -121,4 +127,79 @@ public class FileUtilsTest {
         long time6 = System.currentTimeMillis();
         System.out.println("普通字节流花费的时间为：" + (time6 - time5));
     }
+
+    @Test
+    public void downloadFile() throws IOException {
+        FileUtils.downLoadFromUrl(
+                "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/CoenraadS/vsextensions/bracket-pair-colorizer/1.0.61/vspackage",
+                "bracket-pair-colorizer-1.0.61.zip","D:\\");
+    }
+
+    public static final String PATH = "D:\\Back\\vscode\\";
+    @Test
+    public void vscode(){
+        JSONArray jsonArray = new JSONArray();
+        jsonArray = getJsonArray("D:\\UserData\\Downloads\\1ef4e6e2dee8b230ed9b87365a664361-d388e65a21e4642f2d2bd84d1e76ed3f97dff946\\1ef4e6e2dee8b230ed9b87365a664361-d388e65a21e4642f2d2bd84d1e76ed3f97dff946\\extensions.json");
+        HashMap<String,String> URLMap = new HashMap<>();
+
+        for (int j=0;j<jsonArray.size();j++) {
+            JSONObject jsonObject1 = jsonArray.getJSONObject(j);
+            String name = jsonObject1.get("name").toString();
+            String version = jsonObject1.get("version").toString();
+            String publisher = jsonObject1.get("publisher").toString();
+            URLMap.put(name+"-"+ version,"https://marketplace.visualstudio.com/_apis/public/gallery/publishers/" +publisher+
+                    "/vsextensions/"+ name + "/"+ version+"/vspackage");
+        }
+        int i = 0;
+        URLMap.forEach((name, url)->{
+            try {
+                Thread.sleep(300000);
+                FileUtils.downLoadFromUrl(url,name+".vsix.zip",PATH);
+            } catch (IOException | InterruptedException e) {
+                println(name);
+                println(url);
+            }
+
+        });
+
+
+    }
+    public static JSONArray getJsonArray(String url) {
+        //jsonArray[]格式
+        JSONArray jsonArray = new JSONArray();
+        StringBuilder result = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(url), "UTF-8"));
+            String s = null;
+            while ((s = br.readLine()) != null) {
+                result.append(System.lineSeparator() + s);
+            }
+            br.close();
+            jsonArray = JSONArray.parseArray(result.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public static JSONObject getJsonObjectBy(String url){
+
+        JSONObject jsonObject = new JSONObject();
+        StringBuilder result = new StringBuilder();
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(url),"UTF-8"));
+            String s = null;
+            while((s = bufferedReader.readLine()) != null){
+                result.append(System.lineSeparator() + s);
+            }
+            bufferedReader.close();
+            jsonObject = JSONObject.parseObject(result.toString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 }
