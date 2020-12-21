@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.valarcfcc.xyz.api.entity.User;
-import com.valarcfcc.xyz.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,8 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("user")
 public class UserController {
-    @Resource
-    private UserService userService;
 
     @ApiIgnore
     @GetMapping("hello")
@@ -104,9 +101,5 @@ public class UserController {
         return map;
     }
 
-    @GetMapping("/user/excel")
-    public void excelExport(HttpServletResponse response) throws IOException {
-        userService.excelExport(response);
-    }
 
 }

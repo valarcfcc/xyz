@@ -48,12 +48,13 @@ public class CodeGenerator {
         gc.setAuthor("valarcfcc");
         gc.setOpen(false);
         gc.setFileOverride(true);
-        // gc.setSwagger2(true); 实体属性 Swagger2 注解
+        gc.setSwagger2(true); //实体属性 Swagger2 注解
+        gc.setBaseResultMap(true);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/xyz?serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/eladmin?serverTimezone=GMT%2B8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
@@ -63,7 +64,7 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.valarcfcc.xyz");
+        pc.setParent("com.valar");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -119,6 +120,7 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
+        strategy.setTablePrefix("sts_","mut_","tool_","code_");
 //        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
         strategy.setEntityLombokModel(true);
 //        strategy.setRestControllerStyle(true);
