@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CodeGenerator {
+public class Db2CodeGenerator {
     /**
      * <p>
      * 读取控制台内容
@@ -52,17 +52,17 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/eladmin?serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:db2://192.168.86.130:50001/XYZ");
         // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("12345678xh");
+        dsc.setDriverName("com.ibm.db2.jcc.DB2Driver");
+        dsc.setUsername("db2inst1");
+        dsc.setPassword("123456");
         mpg.setDataSource(dsc);
 
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.valar");
+        pc.setParent("com.example.demo");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
