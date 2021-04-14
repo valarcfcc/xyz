@@ -3,19 +3,38 @@ package com.valarcfcc.xyz;
 import com.valarcfcc.xyz.api.entity.BMM;
 import com.valarcfcc.xyz.api.entity.Car;
 import com.valarcfcc.xyz.api.entity.User;
+import com.valarcfcc.xyz.bean.Code;
 import com.valarcfcc.xyz.constant.Season;
 import com.valarcfcc.xyz.utils.BeanUtils;
+import com.valarcfcc.xyz.utils.CodeComparator;
 import com.valarcfcc.xyz.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static com.valarcfcc.xyz.utils.Common.println;
 @SpringBootTest
 @Slf4j
 public class setTest {
+
+    @Test
+    public void codeTest(){
+        List<Code> codeList = new ArrayList<>(12);
+        for (int i= 0;i<12;i++ ){
+            String path  = RandomStringUtils.randomAlphanumeric(2);
+            codeList.add(new Code(path));
+            System.out.println(path);
+        }
+        Collections.sort(codeList,new CodeComparator());
+        System.out.println("排序后");
+        codeList.forEach(System.out::println);
+    }
     @Test
     public void useCar(){
         User lim59 = new User();
