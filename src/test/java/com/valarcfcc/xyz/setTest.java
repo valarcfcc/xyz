@@ -5,7 +5,6 @@ import com.valarcfcc.xyz.api.entity.Car;
 import com.valarcfcc.xyz.api.entity.User;
 import com.valarcfcc.xyz.bean.Code;
 import com.valarcfcc.xyz.constant.Season;
-import com.valarcfcc.xyz.utils.BeanUtils;
 import com.valarcfcc.xyz.utils.CodeComparator;
 import com.valarcfcc.xyz.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.valarcfcc.xyz.utils.Common.println;
@@ -45,12 +45,22 @@ public class setTest {
     }
     @Test
     public void toStringTest(){
+        List<User> userList = new ArrayList<>(16);
 
-        User user = new User();
-        user.setAge(1);
-        user.setId(1l);
-        user.setName("111");
-        BeanUtils.readAttributeValue(user);
+        for (int i = 0;i<5;i++){
+            User user = new User();
+            user.setAge(1);
+            user.setId(1l+i);
+            user.setName("111");
+            userList.add(user);
+        }
+        userList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return (int) (o1.getId()-o2.getId());
+            }
+        });
+        userList.forEach(System.out::println);
     }
     @Test
     public void bigTest(){
@@ -101,5 +111,19 @@ public class setTest {
                 break;
         }
         return result.toString();
+    }
+    @Test
+    public void forTest(){
+        for (int i = 0; i < 3;i++){
+            println("开始:" + i);
+            for (int j = 0; j < 3;j++){
+                if (j ==1){
+                    println("打印:" + j);
+                    break;
+                }
+                println("j:"+j);
+            }
+            println("结束:" + i);
+        }
     }
 }
